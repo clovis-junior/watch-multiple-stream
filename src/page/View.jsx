@@ -24,9 +24,9 @@ function Screen({ platform, username, muted = false }) {
   const Embed = useMemo(() => {
     switch (platform) {
       case 'kick':
-        return <VideoEmbed platform={platform} username={username} muted={muted} />
+        return <VideoEmbed platform={platform} username={username} muted={muted} allow="autoplay; muted" />
       case 'twitch':
-        return <VideoEmbed platform={platform} username={username} muted={muted} />
+        return <VideoEmbed platform={platform} username={username} muted={muted} allow="autoplay; muted" />
       case 'youtube':
         return <VideoEmbed platform={platform} username={username} muted={muted} 
         allow="autoplay; accelerometer; clipboard-write; encrypted-media; gyroscope; web-share"
