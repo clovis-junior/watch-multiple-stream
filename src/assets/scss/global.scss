@@ -1,0 +1,252 @@
+@use "reset.scss" as *;
+@use "sass:color";
+
+@import url("https://fonts.googleapis.com/css2?family=SUSE:ital,wght@0,100..900;1,100..900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Noto+Color+Emoji&display=swap");
+
+/* ********************************************************
+    Functions
+******************************************************** */
+@function hexToRGB($hexColor) {
+    $red: color.channel($hexColor, "red", $space: rgb);
+    $blue: color.channel($hexColor, "blue", $space: rgb);
+    $green: color.channel($hexColor, "green", $space: rgb);
+
+    @return "#{$red},#{$green},#{$blue}";
+}
+
+@keyframes fade-in {
+	0% {
+		filter: opacity(0.1);
+	}
+	100% {
+		filter: inherit;
+	}
+}
+
+/* ********************************************************
+    Variables
+******************************************************** */
+$fonts:
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    Oxygen-Sans,
+    Ubuntu,
+    Cantarell,
+    "Helvetica Neue",
+    sans-serif !default;
+
+$radius: 10px !default;
+
+$light-color: #fafafa !default;
+$light-pallete-1st: #dfdfdf !default;
+$light-pallete-2nd: #c9c9c9 !default;
+$light-pallete-3rd: #b1b1b1 !default;
+$light-pallete-4th: #9f9f9f !default;
+
+$dark-color: #09090b !default;
+$dark-pallete-1st: #18181b !default;
+$dark-pallete-2nd: #27272a !default;
+$dark-pallete-3rd: #3f3f46 !default;
+$dark-pallete-4th: #52525c !default;
+
+$info-color: #0284c7;
+$warning-color: #f97316;
+$danger-color: #dc2626;
+$success-color: #16a34a;
+
+/* ********************************************************
+    Base
+******************************************************** */
+@keyframes ripple-effect {
+    100% {
+        transform: scale(4);
+        filter: opacity(0);
+    }
+}
+
+:root {
+    --background-color: #{hexToRGB($light-pallete-2nd)};
+    --foreground-color: #{hexToRGB($light-color)};
+
+    --font-primary-color: #{hexToRGB($dark-pallete-1st)};
+    --font-secondary-color: #{hexToRGB($dark-pallete-2nd)};
+    --font-tertiary-color: #{hexToRGB($dark-pallete-3rd)};
+
+    @media (prefers-color-scheme: dark) {
+        --background-color: #{hexToRGB($dark-pallete-1st)};
+        --foreground-color: #{hexToRGB($dark-color)};
+
+        --font-primary-color: #{hexToRGB($light-pallete-1st)};
+        --font-secondary-color: #{hexToRGB($light-pallete-2nd)};
+        --font-tertiary-color: #{hexToRGB($light-pallete-3rd)};
+    }
+}
+
+html {
+    -webkit-tap-highlight-color: transparent;
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+}
+
+body {
+    background-color: rgb(var(--background-color));
+    font-family: SUSE, $fonts;
+    color: rgb(var(--font-primary-color));
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    -webkit-user-select: none;
+    user-select: none;
+}
+
+// ::selection {
+//     background-color: $logo-night;
+//     color: $logo-ice;
+// }
+
+::-webkit-scrollbar {
+    width: 0.5rem;
+    background-color: rgb(var(--background-color));
+}
+
+::-webkit-scrollbar-thumb {
+    border-radius: $radius;
+    background-color: rgb(var(--foreground-color));
+}
+
+iframe {
+    width: 100%;
+    height: 100%;
+    animation-name: fade-in;
+    animation-duration: 360ms;
+    animation-iteration-count: 1;
+    animation-timing-function: linear;
+}
+
+*[data-ripple] {
+    overflow: hidden !important;
+    position: relative !important;
+
+    & .ripple {
+        z-index: 9;
+        pointer-events: none;
+        border-radius: 50%;
+        background-color: #fff;
+        filter: opacity(0.2);
+        animation: ripple-effect 800ms linear;
+        transform: scale(0);
+        position: absolute;
+    }
+}
+
+.alert {
+    --color: #{hexToRGB($info-color)};
+
+    flex: 1 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    border-radius: 10px;
+    border: 1px solid rgba(var(--color), 0.6);
+    background-color: rgba(var(--color), 0.2);
+    font-weight: 600;
+    color: rgb(var(--color));
+
+    &.info {
+        --color: #{hexToRGB($info-color)};
+    }
+    &.success {
+        --color: #{hexToRGB($success-color)};
+    }
+    &.warning {
+        --color: #{hexToRGB($warning-color)};
+    }
+    &.error {
+        --color: #{hexToRGB($danger-color)};
+    }
+}
+
+.button,
+.btn {
+    --color: #{hexToRGB($light-pallete-1st)};
+
+    flex-grow: 1;
+    min-width: 3rem;
+    height: 3rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    border-radius: $radius;
+    background-color: $info-color;
+    line-height: 3rem;
+    font-weight: 500;
+    color: $light-pallete-1st;
+    position: relative;
+
+    &.success {
+        background-color: $success-color;
+    }
+
+    &.danger {
+        background-color: $danger-color;
+    }
+
+    &::after {
+        content: "";
+        pointer-events: none;
+        width: 100%;
+        height: 100%;
+        display: block;
+        background-color: $light-pallete-1st;
+        filter: opacity(0);
+        transition: filter 100ms ease-out;
+        position: absolute;
+        left: 0;
+        top: 0;
+    }
+
+    &:hover {
+        cursor: pointer;
+
+        &::after {
+            filter: opacity(0.05);
+        }
+    }
+
+    &:disabled {
+        color: rgba(var(--color), 0.75);
+        filter: opacity(0.25);
+    }
+}
+
+.buttons,
+.btns {
+    flex: 1 0;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+
+    &.column {
+        flex-wrap: nowrap;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    &.centered {
+        justify-content: center;
+    }
+}
