@@ -87,8 +87,6 @@
             flex-wrap: nowrap;
             justify-content: center;
             align-items: center;
-            overflow: hidden;
-            transition: 500ms ease;
 
             &:nth-child(odd):last-child {
                 grid-column: span 2;
