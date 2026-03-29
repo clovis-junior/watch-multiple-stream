@@ -107,9 +107,7 @@
         flex-wrap: nowrap;
         flex-direction: column;
         justify-content: center;
-        background-color: rgba(var(--foreground-color),.9);
-        -webkit-backdrop-filter: blur(4px);
-        backdrop-filter: blur(4px);
+        background-color: rgb(var(--foreground-color));
         transition: width 220ms linear;
 
         @media (min-width: 380px) {
