@@ -63,7 +63,7 @@ export function ChatEmbed({ platform, username, refreshKey = 0 }) {
       key={refreshKey}
       src={url}
       referrerPolicy="origin"
-      style={{ width: '100%', height: '100%', border: 'none', contain: 'paint' }}
+      style={{ width: '100%', height: '100%', border: 'none' }}
     />
   )
 }
@@ -127,7 +127,7 @@ export function VideoEmbed({ platform, username, muted = true, ...inline }) {
       src={url}
       {...inline}
       title={`Livestream de ${username} via ${platform}`}
-      style={{ width: '100%', height: '100%', border: 'none', contain: 'paint' }}
+      style={{ width: '100%', height: '100%', border: 'none' }}
       allowFullScreen
     />
   )
