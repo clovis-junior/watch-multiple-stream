@@ -127,7 +127,6 @@ export function VideoEmbed({ platform, username, muted = true, ...inline }) {
       src={url}
       {...inline}
       title={`Livestream de ${username} via ${platform}`}
-      style={{ width: '100%', height: '100%', border: 'none' }}
       allowFullScreen
     />
   )
