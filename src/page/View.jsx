@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useParams } from 'react-router-dom'
 
 import { ChatEmbed, VideoEmbed } from '../components/Embed'
@@ -42,7 +42,24 @@ function Screen({ platform, username, muted = false }) {
 function Sidebar({ active = true, children }) {
   active = Boolean(active)
 
-  const classNames = [styles?.sidebar, !active ? styles?.hide : styles?.show].filter(Boolean).join(' ')
+  const [screenSize, setScreenSize] = useState({
+    width: screen.width,
+    height: screen.height,
+  })
+
+  useEffect(() => {
+    function handleResize() {
+      setScreenSize({ width: screen.width, height: screen.height });
+    }
+
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
+  }, [])
+
+  const classNames = [
+    styles?.sidebar, 
+    !active ? styles?.hide : (screenSize.width <= 1280 ? styles?.show : '')
+  ].filter(Boolean).join(' ')
 
   return (
     <aside className={classNames}>
@@ -52,40 +69,15 @@ function Sidebar({ active = true, children }) {
 }
 
 export default function View() {
+  useKeyUp('r', handleRefreshChat)
+  useKeyUp('c', handleToggleSidebar)
+  useKeyUp('v', handleViewMode)
+
   const params = useParams()
 
   const [refreshKey, setRefreshKey] = useState(0)
   const [sidebarIsActive, setSidebarIsActive] = useState(true)
   const [viewMode, setViewMode] = useState(false)
-
-  function handleToggleSidebar() {
-    setSidebarIsActive(!sidebarIsActive)
-  }
-
-  function handleChatActive(event) {
-    event.preventDefault()
-
-    if (event.target.value)
-      setChat(event.target.value)
-
-
-    return false
-  }
-
-  function handleRefreshChat() {
-    if (!chat)
-      return false
-
-    setRefreshKey(prev => prev + 1)
-  }
-
-  function handleViewMode() {
-    setViewMode(!viewMode)
-  }
-
-  useKeyUp('r', handleRefreshChat);
-  useKeyUp('c', handleToggleSidebar);
-  useKeyUp('v', handleViewMode);
 
   const lives = useMemo(() => {
     const urlString = params['*'];
@@ -120,6 +112,31 @@ export default function View() {
   })
 
   if (!entries.length) return null
+
+  function handleToggleSidebar() {
+    setSidebarIsActive(!sidebarIsActive)
+  }
+
+  function handleChatActive(event) {
+    event.preventDefault()
+
+    if (event.target.value)
+      setChat(event.target.value)
+
+
+    return false
+  }
+
+  function handleRefreshChat() {
+    if (!chat)
+      return false
+
+    setRefreshKey(prev => prev + 1)
+  }
+
+  function handleViewMode() {
+    setViewMode(!viewMode)
+  }
 
   const gridClassNames = [styles?.grid, viewMode ? styles?.column : ''].filter(Boolean).join(' ')
 

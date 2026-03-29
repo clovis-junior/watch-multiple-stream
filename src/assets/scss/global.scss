@@ -16,12 +16,12 @@
 }
 
 @keyframes fade-in {
-	0% {
-		filter: opacity(0.1);
-	}
-	100% {
-		filter: inherit;
-	}
+    0% {
+        filter: opacity(0.1);
+    }
+    100% {
+        filter: inherit;
+    }
 }
 
 /* ********************************************************
@@ -103,10 +103,10 @@ body {
     user-select: none;
 }
 
-// ::selection {
-//     background-color: $logo-night;
-//     color: $logo-ice;
-// }
+::selection {
+    background-color: $info-color;
+    color: $light-color;
+}
 
 ::-webkit-scrollbar {
     width: 0.5rem;
@@ -140,6 +140,80 @@ iframe {
         animation: ripple-effect 800ms linear;
         transform: scale(0);
         position: absolute;
+    }
+}
+
+input[type="text"],
+input[type="number"],
+select {
+    width: 100%;
+    display: block;
+    border-radius: $radius;
+    border: 1px solid $dark-pallete-4th;
+    padding: 1rem;
+    background-color: rgba(var(--foreground-color), 0.1);
+    color: inherit;
+    box-shadow: 0 0 0 transparent;
+    transition:
+        border-color 120ms ease-in,
+        background-color 120ms ease-out,
+        box-shadow 120ms ease-in-out;
+    -webkit-user-select: text;
+    user-select: text;
+
+    &:not(:disabled) {
+        &:hover {
+            background-color: rgba(var(--foreground-color), 0.2);
+        }
+
+        &:focus {
+            border-color: $info-color;
+            box-shadow: 0 0 2px $info-color;
+        }
+    }
+
+    &:disabled {
+        cursor: not-allowed;
+        filter: opacity(0.75);
+    }
+
+    &:disabled {
+        filter: opacity(0.25);
+    }
+}
+
+input[type="text"],
+input[type="number"] {
+    &:not(:read-only) {
+        &:hover {
+            background-color: rgba(var(--background-color), 0.5);
+        }
+
+        &:focus {
+            border-color: $info-color;
+            box-shadow: 0 0 2px $info-color;
+        }
+    }
+
+    &:read-only {
+        cursor: not-allowed;
+        filter: opacity(0.75);
+    }
+}
+
+select {
+    cursor: pointer;
+
+    option {
+        cursor: pointer;
+        line-height: 3rem;
+        background-color: rgb(var(--foreground-color));
+        color: rgb(var(--font-primary-color));
+
+        &:hover,
+        &:checked {
+            background-color: $info-color;
+        }
     }
 }
 
@@ -207,7 +281,7 @@ iframe {
         width: 100%;
         height: 100%;
         display: block;
-        background-color: $light-pallete-1st;
+        background-color: $light-color;
         filter: opacity(0);
         transition: filter 100ms ease-out;
         position: absolute;
@@ -219,7 +293,7 @@ iframe {
         cursor: pointer;
 
         &::after {
-            filter: opacity(0.05);
+            filter: opacity(0.1);
         }
     }
 
