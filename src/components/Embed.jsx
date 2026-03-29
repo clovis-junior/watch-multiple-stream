@@ -66,16 +66,23 @@ export function VideoEmbed({ platform, username, muted = true, ...inline }) {
   const isMuted = Boolean(muted)
 
   const [channel, setChannel] = useState(null)
+  const [canPlay, setCanPlay] = useState(false)
   const [isDark, setIsDark] = useState(() =>
     window.matchMedia('(prefers-color-scheme: dark)').matches
   )
 
   useEffect(() => {
     const matcher = window.matchMedia('(prefers-color-scheme: dark)');
-    const listener = e => setIsDark(e.matches);
-    matcher.addEventListener('change', listener);
-    return () => matcher.removeEventListener('change', listener);
+    const listener = e => setIsDark(e.matches)
+    matcher.addEventListener('change', listener)
+    return () => matcher.removeEventListener('change', listener)
   }, [])
+  
+  useEffect(() => {
+    const enableAudio = () => setCanPlay(true);
+    window.addEventListener('click', enableAudio, { once: true })
+    return () => window.removeEventListener('click', enableAudio)
+  }, []);
 
   useEffect(() => {
     if (platform !== 'youtube' || !username) return
@@ -110,7 +117,7 @@ export function VideoEmbed({ platform, username, muted = true, ...inline }) {
 
   if (!url) return null
 
-  return (
+  return (canPlay && 
     <iframe
       src={url}
       {...inline}
