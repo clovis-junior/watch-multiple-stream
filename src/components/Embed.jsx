@@ -97,12 +97,12 @@ export function VideoEmbed({ platform, username, muted = true, ...inline }) {
 
     switch (platform) {
       case 'kick':
-        return `https://player.kick.com/${username}?allowfullscreen=true&muted=${isMuted}`
+        return `https://player.kick.com/${username}?allowfullscreen=true${isMuted ? '&muted=true' : ''}`
       case 'twitch':
-        return `https://player.twitch.tv/?channel=${username}&autoplay=true&muted=${isMuted}&parent=${encodedDomain}`
+        return `https://player.twitch.tv/?channel=${username}&autoplay=true${isMuted ? '&muted=true&' : '&'}parent=${encodedDomain}`
       case 'youtube':
         if (!channel) return null
-        return `https://www.youtube.com/embed/live_stream?channel=${channel}&rel=0&autoplay=1${isMuted ? '&mute=1' : '&'}theme=${isDark ? 'dark' : 'light'}`
+        return `https://www.youtube.com/embed/live_stream?channel=${channel}&rel=0&autoplay=1${isMuted ? '&mute=1&' : '&'}theme=${isDark ? 'dark' : 'light'}`
       default:
         return null
     }
@@ -116,7 +116,6 @@ export function VideoEmbed({ platform, username, muted = true, ...inline }) {
       {...inline}
       title={`Livestream de ${username} via ${platform}`}
       allowFullScreen
-      allow="autoplay; fullscreen"
     />
   )
 }

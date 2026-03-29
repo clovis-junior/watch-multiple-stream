@@ -18,19 +18,23 @@ function Chat({ platform, username, active = false, refreshKey = 0 }) {
   return <div className={classNames}>{isActive && <ChatEmbed platform={platform} username={username} refreshKey={refreshKey} />}</div>
 }
 
-function Screen({ platform, username }) {
+function Screen({ platform, username, muted = false }) {
+  muted = Boolean(muted)
+
   const Embed = useMemo(() => {
     switch (platform) {
       case 'kick':
-        return <VideoEmbed platform={platform} username={username} />
+        return <VideoEmbed platform={platform} username={username} muted={muted} />
       case 'twitch':
-        return <VideoEmbed platform={platform} username={username} />
+        return <VideoEmbed platform={platform} username={username} muted={muted} />
       case 'youtube':
-        return <VideoEmbed platform={platform} username={username} allow="autoplay; accelerometer; clipboard-write; encrypted-media; gyroscope; web-share" referrerPolicy="strict-origin-when-cross-origin" />
+        return <VideoEmbed platform={platform} username={username} muted={muted} 
+        allow="autoplay; accelerometer; clipboard-write; encrypted-media; gyroscope; web-share"
+        referrerPolicy="strict-origin-when-cross-origin" />
       default:
         return null
     }
-  }, [platform, username])
+  }, [platform, username, muted])
 
   return <div className={styles?.live}>{Embed}</div>
 }
@@ -94,10 +98,12 @@ export default function View() {
       const [platform, username] = part.split(':')
 
       if (platform && username)
-        return [username, { platform, username }]
+        return [part, { platform, username }]
 
       return null
     }).filter(Boolean)
+
+    console.log(Object.fromEntries(entries))
 
     return Object.fromEntries(entries)
   }, [params])
@@ -126,12 +132,16 @@ export default function View() {
         toggleChat={handleToggleSidebar}
       />
       <div className={gridClassNames}>
-        {entries.map(([key, item], index) => (
+        {entries.map(([key, item], index) => {
+          const muted = index > 0
+
+          return (
           <Screen key={key}
             platform={item?.platform} username={item?.username}
-            muted={index !== 0}
+            muted={muted}
           />
-        ))}
+        )
+      })}
       </div>
       <Sidebar active={sidebarIsActive}>
         <div className={styles?.chats}>
