@@ -4,6 +4,7 @@ import { getChannelId, getChannelLive } from '../hooks/useYoutube'
 const currentURL = typeof window !== 'undefined' ? window.location.hostname : ''
 
 export function ChatEmbed({ platform, username, refreshKey = 0 }) {
+  const [isLoaded, setIsLoaded] = useState(false)
   const [live, setLive] = useState(null)
   const [isDark, setIsDark] = useState(() =>
     window.matchMedia('(prefers-color-scheme: dark)').matches
@@ -14,6 +15,11 @@ export function ChatEmbed({ platform, username, refreshKey = 0 }) {
     const listener = e => setIsDark(e.matches);
     matcher.addEventListener('change', listener);
     return () => matcher.removeEventListener('change', listener);
+  }, [])
+
+  useEffect(() => {
+    const timer = setTimeout(() => setIsLoaded(true), 1000)
+    return () => clearTimeout(timer)
   }, [])
 
   useEffect(() => {
@@ -50,7 +56,7 @@ export function ChatEmbed({ platform, username, refreshKey = 0 }) {
     }
   }, [platform, username, live, isDark]);
 
-  if (!url) return null
+  if (!url || isLoaded) return null
 
   return (
     <iframe
@@ -65,8 +71,8 @@ export function ChatEmbed({ platform, username, refreshKey = 0 }) {
 export function VideoEmbed({ platform, username, muted = true, ...inline }) {
   const isMuted = Boolean(muted)
 
+  const [isLoaded, setIsLoaded] = useState(false)
   const [channel, setChannel] = useState(null)
-  const [canPlay, setCanPlay] = useState(false)
   const [isDark, setIsDark] = useState(() =>
     window.matchMedia('(prefers-color-scheme: dark)').matches
   )
@@ -79,10 +85,9 @@ export function VideoEmbed({ platform, username, muted = true, ...inline }) {
   }, [])
   
   useEffect(() => {
-    const enableAudio = () => setCanPlay(true);
-    window.addEventListener('click', enableAudio, { once: true })
-    return () => window.removeEventListener('click', enableAudio)
-  }, []);
+    const timer = setTimeout(() => setIsLoaded(true), 1000)
+    return () => clearTimeout(timer)
+  }, [])
 
   useEffect(() => {
     if (platform !== 'youtube' || !username) return
@@ -115,9 +120,9 @@ export function VideoEmbed({ platform, username, muted = true, ...inline }) {
     }
   }, [platform, username, channel, isMuted, isDark])
 
-  if (!url) return null
+  if (!url || !isLoaded) return null
 
-  return (canPlay && 
+  return ( 
     <iframe
       src={url}
       {...inline}
