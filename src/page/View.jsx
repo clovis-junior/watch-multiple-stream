@@ -114,8 +114,6 @@ export default function View() {
       return null
     }).filter(Boolean)
 
-    console.log(Object.fromEntries(entries))
-
     return Object.fromEntries(entries)
   }, [params])
 
@@ -157,6 +155,22 @@ export default function View() {
     setViewMode(!viewMode)
   }
 
+  function getPlatformName(short) {
+    switch (short) {
+      case 'k':
+        return 'Kick'
+      case 't':
+      case 'ttv':
+        return 'Twitch TV'
+      case 'y':
+      case 'yt':
+      case 'ytb':
+        return 'YouTube'
+      default:
+        return short
+    }
+  }
+
   const gridClassNames = [styles?.grid, viewMode ? styles?.column : ''].filter(Boolean).join(' ')
 
   return (
@@ -194,7 +208,7 @@ export default function View() {
                 const value = `${item?.platform}-${item?.username}`
                 return (
                   <option key={key} value={value}>
-                    {item?.username} ({item?.platform})
+                    {item?.username} ({getPlatformName(item?.platform)})
                   </option>
                 )
               })}

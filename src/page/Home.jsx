@@ -61,7 +61,7 @@ export default function Home() {
         {streams.map((stream, index) => (
           <div key={index} className={styles?.label}>
             <select value={stream.platform} onChange={(e) => updateStream(index, 'platform', e.target.value)}>
-              <option value="ttv">Twitch</option>
+              <option value="ttv">Twitch TV</option>
               <option value="yt">YouTube</option>
               <option value="k">Kick</option>
             </select>
