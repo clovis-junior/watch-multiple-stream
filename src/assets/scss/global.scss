@@ -41,22 +41,22 @@ $fonts:
 
 $radius: 10px !default;
 
-$light-color: #fafafa !default;
-$light-pallete-1st: #dfdfdf !default;
-$light-pallete-2nd: #c9c9c9 !default;
-$light-pallete-3rd: #b1b1b1 !default;
-$light-pallete-4th: #9f9f9f !default;
+$light-color: #f8fafc !default;
+$light-pallete-1st: #f1f5f9 !default;
+$light-pallete-2nd: #e2e8f0 !default;
+$light-pallete-3rd: #cbd5e1 !default;
+$light-pallete-4th: #94a3b8 !default;
 
-$dark-color: #09090b !default;
-$dark-pallete-1st: #18181b !default;
-$dark-pallete-2nd: #27272a !default;
-$dark-pallete-3rd: #3f3f46 !default;
-$dark-pallete-4th: #52525c !default;
+$dark-color: #030712 !default;
+$dark-pallete-1st: #111827 !default;
+$dark-pallete-2nd: #1f2937 !default;
+$dark-pallete-3rd: #374151 !default;
+$dark-pallete-4th: #4b5563 !default;
 
 $info-color: #0284c7;
-$warning-color: #f97316;
-$danger-color: #dc2626;
-$success-color: #16a34a;
+$warning-color: #ca8a04;
+$danger-color: #e11d48;
+$success-color: #059669;
 
 /* ********************************************************
     Base
@@ -78,7 +78,7 @@ $success-color: #16a34a;
 
     @media (prefers-color-scheme: dark) {
         --background-color: #{hexToRGB($dark-pallete-1st)};
-        --foreground-color: #{hexToRGB($dark-color)};
+        --foreground-color: #{hexToRGB($dark-pallete-2nd)};
 
         --font-primary-color: #{hexToRGB($light-pallete-1st)};
         --font-secondary-color: #{hexToRGB($light-pallete-2nd)};
@@ -102,6 +102,10 @@ body {
     -webkit-user-select: none;
     user-select: none;
 }
+
+:disabled {
+        filter: opacity(0.25);
+    }
 
 ::selection {
     background-color: $info-color;
@@ -174,17 +178,12 @@ select {
 
     &:disabled {
         cursor: not-allowed;
-        filter: opacity(0.75);
-    }
-
-    &:disabled {
-        filter: opacity(0.25);
     }
 }
 
 input[type="text"],
 input[type="number"] {
-    &:not(:read-only) {
+    &:not(:read-only):not(:disabled) {
         &:hover {
             background-color: rgba(var(--background-color), 0.5);
         }
@@ -295,11 +294,6 @@ select {
         &::after {
             filter: opacity(0.1);
         }
-    }
-
-    &:disabled {
-        color: rgba(var(--color), 0.75);
-        filter: opacity(0.25);
     }
 }
 

@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 
 import Ripple from '../components/Ripple'
 import styles from '../assets/scss/home.module.scss'
+import Icon from '../components/Icon'
 
 export default function Home() {
   const [error, setError] = useState('')
@@ -23,7 +24,7 @@ export default function Home() {
     const isLast = index === streams.length - 1
 
     if (isLast && value.trim() !== '')
-      setStreams([...newStreams, { username: '', platform: 'twitch' }])
+      setStreams([...newStreams, { username: '', platform: 'twitch', hidden: false }])
   }
 
   function handleViewStreams() {
@@ -34,7 +35,7 @@ export default function Home() {
       return
     }
 
-    const urlPath = validStreams.map((s) => `${s.platform.toLowerCase()}:${s.username.trim()}`).join('/')
+    const urlPath = validStreams.map((s) => `${s.platform.toLowerCase()}:${s.username.trim()}${s.hidden ? ':hidden' : ''}`).join('/')
 
     navigate(`/${urlPath}`)
   }
@@ -65,22 +66,28 @@ export default function Home() {
               <option value="kick">Kick</option>
             </select>
             <input type="text" placeholder="Username..." value={stream.username} onChange={(e) => updateStream(index, 'username', e.target.value)} />
+            <Ripple tag="button" type="button"
+              onClick={() => updateStream(index, 'hidden', !stream.hidden)}
+              className={`${styles?.button} ${stream.hidden ? styles?.danger : styles?.success}`}
+              >
+                <Icon name={stream.hidden ? 'visibility_off' : 'visibility'} />
+                </Ripple>
           </div>
         ))}
         <nav className={styles?.buttons}>
           <Ripple tag="button" type="button" className={styles?.button} onClick={handleViewStreams}>
             {`Watch ${streams?.length > 1 ? 'Streams' : 'Stream'}`}
           </Ripple>
-          <Ripple tag="button" type="reset" 
-          className={`${styles?.button} ${styles?.danger}`} 
-          onClick={handleClear}>
+          <Ripple tag="button" type="reset"
+            className={`${styles?.button} ${styles?.danger}`}
+            onClick={handleClear}>
             Clear
           </Ripple>
         </nav>
         <footer className={styles?.buttons}>
-          <Ripple tag="button" type="button" 
-          className={`${styles?.button} ${styles?.success}`} 
-          onClick={() => openNewTab('https://ko-fi.com/clovao')}>Support Me</Ripple>
+          <Ripple tag="button" type="button"
+            className={`${styles?.button} ${styles?.success}`}
+            onClick={() => openNewTab('https://ko-fi.com/clovao')}>Support Me</Ripple>
         </footer>
       </main>
     </div>

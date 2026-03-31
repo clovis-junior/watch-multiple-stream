@@ -21,7 +21,9 @@
     flex-direction: column;
     align-items: stretch;
     row-gap: 1rem;
-    padding: 3rem 2rem;
+    padding: 2rem;
+    border-radius: $radius;
+    background-color: rgb(var(--foreground-color));
 
     .header {
         padding: 1rem;
@@ -50,7 +52,9 @@
         flex: 1 0;
         display: flex;
         flex-wrap: nowrap;
-        flex-direction: column;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
         gap: 1rem;
     }
 }

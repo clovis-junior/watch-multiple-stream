@@ -1,6 +1,8 @@
 $font-family: "icomoon" !default;
 $font-path: "../fonts" !default;
 
+$visibility: "\e907";
+$visibility_off: "\e908";
 $refresh_lives: "\e905";
 $refresh_chat: "\e906";
 $right_panel_open: "\e900";
@@ -11,12 +13,12 @@ $splitscreen: "\e904";
 
 @font-face {
     font-family: "#{$font-family}";
-    src: url("#{$font-path}/#{$font-family}.eot?pth2nj");
+    src: url("#{$font-path}/#{$font-family}.eot?2f8vay");
     src:
-        url("#{$font-path}/#{$font-family}.eot?pth2nj#iefix") format("embedded-opentype"),
-        url("#{$font-path}/#{$font-family}.ttf?pth2nj") format("truetype"),
-        url("#{$font-path}/#{$font-family}.woff?pth2nj") format("woff"),
-        url("#{$font-path}/#{$font-family}.svg?pth2nj##{$font-family}") format("svg");
+        url("#{$font-path}/#{$font-family}.eot?2f8vay#iefix") format("embedded-opentype"),
+        url("#{$font-path}/#{$font-family}.ttf?2f8vay") format("truetype"),
+        url("#{$font-path}/#{$font-family}.woff?2f8vay") format("woff"),
+        url("#{$font-path}/#{$font-family}.svg?2f8vay##{$font-family}") format("svg");
     font-weight: normal;
     font-style: normal;
     font-display: block;
@@ -36,6 +38,16 @@ $splitscreen: "\e904";
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 
+    &.visibility {
+        &:before {
+            content: $visibility;
+        }
+    }
+    &.visibility_off {
+        &:before {
+            content: $visibility_off;
+        }
+    }
     &.refresh_lives {
         &:before {
             content: $refresh_lives;

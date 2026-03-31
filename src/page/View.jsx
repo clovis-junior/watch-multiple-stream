@@ -18,25 +18,36 @@ function Chat({ platform, username, active = false, refreshKey = 0 }) {
   return <div className={classNames}>{isActive && <ChatEmbed platform={platform} username={username} refreshKey={refreshKey} />}</div>
 }
 
-function Screen({ platform, username, muted = false }) {
+function Screen({ platform, username, isVisible = true, muted = false }) {
   muted = Boolean(muted)
 
+  const [visible, setVisible] = useState(isVisible)
+
   const Embed = useMemo(() => {
+    if (!visible) return null;
+
     switch (platform) {
       case 'kick':
-        return <VideoEmbed platform={platform} username={username} muted={muted} 
-                 allow="autoplay" referrerPolicy="strict-origin-when-cross-origin" />
+        return <VideoEmbed platform={platform} username={username} muted={muted}
+          allow="autoplay" referrerPolicy="strict-origin-when-cross-origin" />
       case 'twitch':
-        return <VideoEmbed platform={platform} username={username} muted={muted} 
-                 allow="autoplay" referrerPolicy="strict-origin-when-cross-origin" />
+        return <VideoEmbed platform={platform} username={username} muted={muted}
+          allow="autoplay" referrerPolicy="strict-origin-when-cross-origin" />
       case 'youtube':
-        return <VideoEmbed platform={platform} username={username} muted={muted} 
-        allow="autoplay; accelerometer; clipboard-write; encrypted-media; gyroscope; web-share"
-        referrerPolicy="strict-origin-when-cross-origin" />
+        return <VideoEmbed platform={platform} username={username} muted={muted}
+          allow="autoplay; accelerometer; clipboard-write; encrypted-media; gyroscope; web-share"
+          referrerPolicy="strict-origin-when-cross-origin" />
       default:
         return null
     }
-  }, [platform, username, muted])
+  }, [visible, platform, username, muted])
+
+  useEffect(() => {
+    setVisible(isVisible)
+  }, [isVisible])
+
+  if (!visible)
+    return null
 
   return <div className={styles?.live}>{Embed}</div>
 }
@@ -59,7 +70,7 @@ function Sidebar({ active = true, children }) {
   }, [])
 
   const classNames = [
-    styles?.sidebar, 
+    styles?.sidebar,
     !active ? styles?.hide : (screenSize.width <= 1280 ? styles?.show : '')
   ].filter(Boolean).join(' ')
 
@@ -89,10 +100,10 @@ export default function View() {
     const parts = urlString.split('/').filter(Boolean)
 
     const entries = parts.map(part => {
-      const [platform, username] = part.split(':')
+      const [platform, username, hidden] = part.split(':')
 
       if (platform && username)
-        return [part, { platform, username }]
+        return [part, { platform, username, hidden: (hidden ? true : false) }]
 
       return null
     }).filter(Boolean)
@@ -144,7 +155,8 @@ export default function View() {
 
   return (
     <div className={styles?.watch}>
-      <Menu 
+      <Menu
+        streams={entries}
         sidebarActive={sidebarIsActive}
         viewMode={viewMode}
         changeViewMode={handleViewMode}
@@ -155,12 +167,12 @@ export default function View() {
           const muted = index > 0
 
           return (
-          <Screen key={key}
-            platform={item?.platform} username={item?.username}
-            muted={muted}
-          />
-        )
-      })}
+            <Screen key={key} isVisible={!item?.hidden}
+              platform={item?.platform} username={item?.username}
+              muted={muted}
+            />
+          )
+        })}
       </div>
       <Sidebar active={sidebarIsActive}>
         <div className={styles?.chats}>
@@ -183,9 +195,9 @@ export default function View() {
             </select>
           </nav>
           <Ripple title="Refresh Chat"
-          tag="button" type="button"
-          className={styles?.button}
-          onClick={handleRefreshChat}>
+            tag="button" type="button"
+            className={styles?.button}
+            onClick={handleRefreshChat}>
             <Icon name="refresh_chat" />
           </Ripple>
         </footer>
