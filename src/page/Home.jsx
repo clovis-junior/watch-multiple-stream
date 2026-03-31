@@ -66,9 +66,12 @@ export default function Home() {
         <header className={styles?.header}>
           <h2 className={styles?.title}>Watch Multiple Stream</h2>
           <h3>Thats the way to watch multiple streams at one time.</h3>
-          <small className={styles?.info}>Currently, we only supports Twitch, YouTube, and Kick streams.</small>
         </header>
-        {error ? <div className={`${styles?.alert} ${styles?.error}`}>{error}</div> : null}
+        {error ? (
+          <div className={`${styles?.alert} ${styles?.error}`}>{error}</div>
+        ) : (
+          <div className={`${styles?.alert} ${styles?.info}`}>All generated URLs are valid for only 24 hours.</div>
+        )}
         {streams.map((stream, index) => (
           <div key={index} className={styles?.label}>
             <select value={stream.platform} onChange={(e) => updateStream(index, 'platform', e.target.value)}>
