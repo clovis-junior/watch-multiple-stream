@@ -108,10 +108,16 @@ export function VideoEmbed({ platform, username, muted = true, ...inline }) {
     const encodedDomain = encodeURIComponent(currentURL)
 
     switch (platform) {
+      case 'k':
       case 'kick':
         return `https://player.kick.com/${username}?allowfullscreen=true&muted=${isMuted}`
+      case 't':
+      case 'ttv':
       case 'twitch':
         return `https://player.twitch.tv/?channel=${username}&autoplay=true&muted=${isMuted}&parent=${encodedDomain}`
+      case 'y':
+      case 'yt':
+      case 'ytb':
       case 'youtube':
         if (!channel) return null
         return `https://www.youtube.com/embed/live_stream?channel=${channel}&rel=0&autoplay=1${isMuted ? '&mute=1' : ''}&theme=${isDark ? 'dark' : 'light'}`

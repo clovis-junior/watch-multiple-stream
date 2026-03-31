@@ -7,7 +7,7 @@ import Icon from '../components/Icon'
 
 export default function Home() {
   const [error, setError] = useState('')
-  const [streams, setStreams] = useState([{ username: '', platform: 'twitch' }])
+  const [streams, setStreams] = useState([{ platform: 'ttv', username: '', hidden: false }])
   const navigate = useNavigate()
 
   function openNewTab(url) {
@@ -24,7 +24,7 @@ export default function Home() {
     const isLast = index === streams.length - 1
 
     if (isLast && value.trim() !== '')
-      setStreams([...newStreams, { username: '', platform: 'twitch', hidden: false }])
+      setStreams([...newStreams, { platform: 'ttv', username: '', hidden: false }])
   }
 
   function handleViewStreams() {
@@ -35,7 +35,7 @@ export default function Home() {
       return
     }
 
-    const urlPath = validStreams.map((s) => `${s.platform.toLowerCase()}:${s.username.trim()}${s.hidden ? ':hidden' : ''}`).join('/')
+    const urlPath = validStreams.map((s) => `${s.platform.toLowerCase()}:${s.username.trim()}${s.hidden ? ':hide' : ''}`).join('/')
 
     navigate(`/${urlPath}`)
   }
@@ -43,7 +43,7 @@ export default function Home() {
   function handleClear(event) {
     event.preventDefault()
 
-    setStreams([{ username: '', platform: 'twitch' }])
+    setStreams([{ platform: 'ttv', username: '', hidden: false }])
     setError('')
 
     return false
@@ -61,17 +61,17 @@ export default function Home() {
         {streams.map((stream, index) => (
           <div key={index} className={styles?.label}>
             <select value={stream.platform} onChange={(e) => updateStream(index, 'platform', e.target.value)}>
-              <option value="twitch">Twitch</option>
-              <option value="youtube">YouTube</option>
-              <option value="kick">Kick</option>
+              <option value="ttv">Twitch</option>
+              <option value="yt">YouTube</option>
+              <option value="k">Kick</option>
             </select>
             <input type="text" placeholder="Username..." value={stream.username} onChange={(e) => updateStream(index, 'username', e.target.value)} />
             <Ripple tag="button" type="button"
               onClick={() => updateStream(index, 'hidden', !stream.hidden)}
               className={`${styles?.button} ${stream.hidden ? styles?.danger : styles?.success}`}
-              >
-                <Icon name={stream.hidden ? 'visibility_off' : 'visibility'} />
-                </Ripple>
+            >
+              <Icon name={stream.hidden ? 'visibility_off' : 'visibility'} />
+            </Ripple>
           </div>
         ))}
         <nav className={styles?.buttons}>

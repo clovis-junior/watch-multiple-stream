@@ -27,12 +27,18 @@ function Screen({ platform, username, isVisible = true, muted = false }) {
     if (!visible) return null;
 
     switch (platform) {
+      case 'k':
       case 'kick':
         return <VideoEmbed platform={platform} username={username} muted={muted}
           allow="autoplay" referrerPolicy="strict-origin-when-cross-origin" />
+      case 't':
+      case 'ttv':
       case 'twitch':
         return <VideoEmbed platform={platform} username={username} muted={muted}
           allow="autoplay" referrerPolicy="strict-origin-when-cross-origin" />
+      case 'y':
+      case 'yt':
+      case 'ytb':
       case 'youtube':
         return <VideoEmbed platform={platform} username={username} muted={muted}
           allow="autoplay; accelerometer; clipboard-write; encrypted-media; gyroscope; web-share"
