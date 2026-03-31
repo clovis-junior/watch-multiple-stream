@@ -30,7 +30,7 @@ function Screen({ platform, username, isVisible = true, muted = false }) {
     if (!visible) return null;
 
     switch (platform) {
-      case 'Lick':
+      case 'Kick':
         return <VideoEmbed platform={platform} username={username} muted={muted}
           allow="autoplay" referrerPolicy="strict-origin-when-cross-origin" />
       case 'Twitch':
