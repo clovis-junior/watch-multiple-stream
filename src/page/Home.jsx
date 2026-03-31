@@ -7,7 +7,7 @@ import Icon from '../components/Icon'
 
 export default function Home() {
   const [error, setError] = useState('')
-  const [streams, setStreams] = useState([{ platform: 'ttv', username: '', hidden: false }])
+  const [streams, setStreams] = useState([{ platform: 'Twitch', username: '', hidden: false }])
   const navigate = useNavigate()
 
   function openNewTab(url) {
@@ -24,7 +24,7 @@ export default function Home() {
     const isLast = index === streams.length - 1
 
     if (isLast && value.trim() !== '')
-      setStreams([...newStreams, { platform: 'ttv', username: '', hidden: false }])
+      setStreams([...newStreams, { platform: 'Twitch', username: '', hidden: false }])
   }
 
   async function handleViewStreams() {
@@ -54,7 +54,7 @@ export default function Home() {
   function handleClear(event) {
     event.preventDefault()
 
-    setStreams([{ platform: 'ttv', username: '', hidden: false }])
+    setStreams([{ platform: 'Twitch', username: '', hidden: false }])
     setError('')
 
     return false
@@ -72,9 +72,9 @@ export default function Home() {
         {streams.map((stream, index) => (
           <div key={index} className={styles?.label}>
             <select value={stream.platform} onChange={(e) => updateStream(index, 'platform', e.target.value)}>
-              <option value="ttv">Twitch TV</option>
-              <option value="yt">YouTube</option>
-              <option value="k">Kick</option>
+              <option value="Twitch">Twitch TV</option>
+              <option value="YouTube">YouTube</option>
+              <option value="Kick">Kick</option>
             </select>
             <input type="text" placeholder="Username..." value={stream.username} onChange={(e) => updateStream(index, 'username', e.target.value)} />
             <Ripple tag="button" type="button"

@@ -41,13 +41,11 @@ export function ChatEmbed({ platform, username, refreshKey = 0 }) {
     const encodedDomain = encodeURIComponent(currentURL)
 
     switch (platform) {
-      case 'kick':
+      case 'Kick':
         return `https://kick.com/popout/${username}/chat`;
-
-      case 'twitch':
+      case 'Twitch':
         return `https://www.twitch.tv/embed/${username}/chat?parent=${encodedDomain}${isDark ? '&darkpopout' : ''}`;
-
-      case 'youtube':
+      case 'YouTube':
         if (!live) return null;
         return `https://www.youtube.com/live_chat?v=${live}&embed_domain=${encodedDomain}${isDark ? '&darkMode=1' : ''}`;
 
@@ -108,17 +106,11 @@ export function VideoEmbed({ platform, username, muted = true, ...inline }) {
     const encodedDomain = encodeURIComponent(currentURL)
 
     switch (platform) {
-      case 'k':
-      case 'kick':
+      case 'Kick':
         return `https://player.kick.com/${username}?allowfullscreen=true&muted=${isMuted}`
-      case 't':
-      case 'ttv':
-      case 'twitch':
+      case 'Twitch':
         return `https://player.twitch.tv/?channel=${username}&autoplay=true&muted=${isMuted}&parent=${encodedDomain}`
-      case 'y':
-      case 'yt':
-      case 'ytb':
-      case 'youtube':
+      case 'YouTube':
         if (!channel) return null
         return `https://www.youtube.com/embed/live_stream?channel=${channel}&rel=0&autoplay=1${isMuted ? '&mute=1' : ''}&theme=${isDark ? 'dark' : 'light'}`
       default:

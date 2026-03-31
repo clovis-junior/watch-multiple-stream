@@ -27,19 +27,13 @@ function Screen({ platform, username, isVisible = true, muted = false }) {
     if (!visible) return null;
 
     switch (platform) {
-      case 'k':
-      case 'kick':
+      case 'Lick':
         return <VideoEmbed platform={platform} username={username} muted={muted}
           allow="autoplay" referrerPolicy="strict-origin-when-cross-origin" />
-      case 't':
-      case 'ttv':
-      case 'twitch':
+      case 'Twitch':
         return <VideoEmbed platform={platform} username={username} muted={muted}
           allow="autoplay" referrerPolicy="strict-origin-when-cross-origin" />
-      case 'y':
-      case 'yt':
-      case 'ytb':
-      case 'youtube':
+      case 'YouTube':
         return <VideoEmbed platform={platform} username={username} muted={muted}
           allow="autoplay; accelerometer; clipboard-write; encrypted-media; gyroscope; web-share"
           referrerPolicy="strict-origin-when-cross-origin" />
@@ -163,22 +157,6 @@ export default function View() {
     setViewMode(!viewMode)
   }
 
-  function getPlatformName(short) {
-    switch (short) {
-      case 'k':
-        return 'Kick'
-      case 't':
-      case 'ttv':
-        return 'Twitch TV'
-      case 'y':
-      case 'yt':
-      case 'ytb':
-        return 'YouTube'
-      default:
-        return short
-    }
-  }
-
   const gridClassNames = [styles?.grid, viewMode ? styles?.column : ''].filter(Boolean).join(' ')
 
   return (
@@ -216,7 +194,7 @@ export default function View() {
                 const value = `${item?.platform}-${item?.username}`
                 return (
                   <option key={key} value={value}>
-                    {item?.username} ({getPlatformName(item?.platform)})
+                    {item?.username} ({item?.platform})
                   </option>
                 )
               })}
