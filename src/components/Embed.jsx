@@ -36,19 +36,18 @@ export function ChatEmbed({ platform, username, refreshKey = 0 }) {
   }, [platform, username])
 
   const url = useMemo(() => {
-    if (!platform || !username) return null;
+    if (!platform || !username) return null
 
     const encodedDomain = encodeURIComponent(currentURL)
 
     switch (platform) {
       case 'Kick':
-        return `https://kick.com/popout/${username}/chat`;
+        return `https://kick.com/popout/${username}/chat`
       case 'Twitch':
-        return `https://www.twitch.tv/embed/${username}/chat?parent=${encodedDomain}${isDark ? '&darkpopout' : ''}`;
+        return `https://www.twitch.tv/embed/${username}/chat?parent=${encodedDomain}${isDark ? '&darkpopout' : ''}`
       case 'YouTube':
         if (!live) return null;
-        return `https://www.youtube.com/live_chat?v=${live}&embed_domain=${encodedDomain}${isDark ? '&darkMode=1' : ''}`;
-
+        return `https://www.youtube.com/live_chat?v=${live}&embed_domain=${encodedDomain}${isDark ? '&darkMode=1' : ''}`
       default:
         return null;
     }

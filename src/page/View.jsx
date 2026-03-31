@@ -13,6 +13,9 @@ import Icon from '../components/Icon'
 function Chat({ platform, username, active = false, refreshKey = 0 }) {
   const isActive = active || false
 
+  if (!platform || !username)
+    return null
+
   const classNames = [styles?.chat, isActive ? styles?.active : ''].filter(Boolean).join(' ')
 
   return <div className={classNames}>{isActive && <ChatEmbed platform={platform} username={username} refreshKey={refreshKey} />}</div>
@@ -89,20 +92,19 @@ export default function View() {
   const { id } = useParams()
 
   const [refreshKey, setRefreshKey] = useState(0)
-  const [lives, setLives] = useState({});
+  const [streams, setStreams] = useState([]);
   const [sidebarIsActive, setSidebarIsActive] = useState(true)
   const [viewMode, setViewMode] = useState(false)
+  const [chat, setChat] = useState(null)
 
-  const entries = Object.entries(lives || {})
+  const activeChat = useMemo(() => {
+    if (chat) return chat
 
-  const [chat, setChat] = useState(() => {
-    if (entries.length > 0) {
-      const [_, firstItem] = entries[0]
-      return `${firstItem?.platform}-${firstItem?.username}`
-    }
+    if (streams.length > 0)
+      return `${streams[0].platform}:${streams[0].username}`
 
-    return null
-  })
+    return null;
+  }, [chat, streams])
 
   useEffect(() => {
     if (!id) return
@@ -111,26 +113,26 @@ export default function View() {
       const response = await fetch(`/api/view/${id}`)
       const { data } = await response.json()
 
-      const entries = data.map((value, index) => {
+      const entries = data.map(value => {
         const { platform, username, hidden } = value
 
-        if (platform && username)
-          return [index, {
-            platform,
-            username,
-            hidden: !!hidden
-          }]
+        if (!platform || !username)
+          return null
 
-        return null
-      }).filter(Boolean);
+        return {
+          platform,
+          username,
+          hidden: !!hidden
+        }
+      }).filter(Boolean)
 
-      setLives(Object.fromEntries(entries))
+      setStreams(entries)
     }
 
     load()
   }, [id])
 
-  if (!entries.length) return null
+  if (!streams.length) return null
 
   function handleToggleSidebar() {
     setSidebarIsActive(!sidebarIsActive)
@@ -162,19 +164,19 @@ export default function View() {
   return (
     <div className={styles?.watch}>
       <Menu
-        streams={entries}
+        streams={streams}
         sidebarActive={sidebarIsActive}
         viewMode={viewMode}
         changeViewMode={handleViewMode}
         toggleChat={handleToggleSidebar}
       />
       <div className={gridClassNames}>
-        {entries.map(([key, item], index) => {
+        {streams.map((data, index) => {
           const muted = index > 0
 
           return (
-            <Screen key={key} isVisible={!item?.hidden}
-              platform={item?.platform} username={item?.username}
+            <Screen key={index} isVisible={!data?.hidden}
+              platform={data?.platform} username={data?.username}
               muted={muted}
             />
           )
@@ -182,19 +184,19 @@ export default function View() {
       </div>
       <Sidebar active={sidebarIsActive}>
         <div className={styles?.chats}>
-          {entries.map(([key, item]) => {
-            const value = `${item?.platform}-${item?.username}`
-            return <Chat key={key} active={chat === value} platform={item?.platform} username={item?.username} refreshKey={refreshKey} />
+          {streams.map((data, index) => {
+            const value = `${data?.platform}:${data?.username}`
+            return <Chat key={index} active={activeChat === value} platform={data?.platform} username={data?.username} refreshKey={refreshKey} />
           })}
         </div>
         <footer className={styles?.footer}>
           <nav>
-            <select name="chats" onChange={handleChatActive} value={chat || ''} disabled={entries.length <= 1 ? true : false}>
-              {entries.map(([key, item]) => {
-                const value = `${item?.platform}-${item?.username}`
+            <select name="chats" onChange={handleChatActive} value={activeChat} disabled={streams.length <= 1 ? true : false}>
+              {streams.map((data, index) => {
+                const value = `${data?.platform}:${data?.username}`
                 return (
-                  <option key={key} value={value}>
-                    {item?.username} ({item?.platform})
+                  <option key={index} value={value}>
+                    {data?.username} ({data?.platform})
                   </option>
                 )
               })}
