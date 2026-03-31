@@ -101,8 +101,6 @@ export default function View() {
 
   const entries = Object.entries(lives || {})
 
-  console.log(entries)
-
   const [chat, setChat] = useState(() => {
     if (entries.length > 0) {
       const [_, firstItem] = entries[0]
