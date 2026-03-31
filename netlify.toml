@@ -1,6 +1,19 @@
+[functions]
+  directory = "netlify/functions"
+
 [build]
   command = "npm run build"
   publish = "dist"
+
+[[redirects]]
+  from = "/api/view"
+  to = "/.netlify/functions/create-view"
+  status = 200
+
+[[redirects]]
+  from = "/api/view/*"
+  to = "/.netlify/functions/get-view/:splat"
+  status = 200
 
 [[headers]]
   for = "/*"
@@ -8,7 +21,7 @@
     # Access-Control-Allow-Origin = "*"
     # Access-Control-Allow-Headers = "Content-Type"
     # Access-Control-Allow-Methods = "GET, HEAD"
-    Cache-Control = "no-cache, no-store, must-revalidate"
+    Cache-Control = "public, max-age=0, must-revalidate"
     x-powered-by = "Clovis Junior"
 
 [[redirects]]

@@ -27,7 +27,7 @@ export default function Home() {
       setStreams([...newStreams, { platform: 'ttv', username: '', hidden: false }])
   }
 
-  function handleViewStreams() {
+  async function handleViewStreams() {
     const validStreams = streams.filter((s) => s.username.trim() !== '')
 
     if (validStreams.length === 0) {
@@ -35,9 +35,20 @@ export default function Home() {
       return
     }
 
-    const urlPath = validStreams.map((s) => `${s.platform.toLowerCase()}:${s.username.trim()}${s.hidden ? ':hide' : ''}`).join('/')
+    try {
+      const response = await fetch('/api/view', {
+        method: 'POST',
+        body: JSON.stringify({ data: validStreams })
+      })
 
-    navigate(`/${urlPath}`)
+      const { id } = await response.json()
+
+      navigate(`/v/${id}`)
+    } catch (err) {
+      console.error(err)
+      setError(`Error: ${err}`)
+      return
+    }
   }
 
   function handleClear(event) {

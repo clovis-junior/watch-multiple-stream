@@ -92,32 +92,16 @@ export default function View() {
   useKeyUp('c', handleToggleSidebar)
   useKeyUp('v', handleViewMode)
 
-  const params = useParams()
+  const { id } = useParams()
 
   const [refreshKey, setRefreshKey] = useState(0)
+  const [lives, setLives] = useState({});
   const [sidebarIsActive, setSidebarIsActive] = useState(true)
   const [viewMode, setViewMode] = useState(false)
 
-  const lives = useMemo(() => {
-    const urlString = params['*'];
-
-    if (!urlString) return {}
-
-    const parts = urlString.split('/').filter(Boolean)
-
-    const entries = parts.map(part => {
-      const [platform, username, hidden] = part.split(':')
-
-      if (platform && username)
-        return [part, { platform, username, hidden: (hidden ? true : false) }]
-
-      return null
-    }).filter(Boolean)
-
-    return Object.fromEntries(entries)
-  }, [params])
-
   const entries = Object.entries(lives || {})
+
+  console.log(entries)
 
   const [chat, setChat] = useState(() => {
     if (entries.length > 0) {
@@ -127,6 +111,32 @@ export default function View() {
 
     return null
   })
+
+  useEffect(() => {
+    if (!id) return
+
+    async function load() {
+      const response = await fetch(`/api/view/${id}`)
+      const { data } = await response.json()
+
+      const entries = data.map((value, index) => {
+        const { platform, username, hidden } = value
+
+        if (platform && username)
+          return [index, {
+            platform,
+            username,
+            hidden: !!hidden
+          }]
+
+        return null
+      }).filter(Boolean);
+
+      setLives(Object.fromEntries(entries))
+    }
+
+    load()
+  }, [id])
 
   if (!entries.length) return null
 
