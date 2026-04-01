@@ -23,7 +23,7 @@ export function ChatEmbed({ platform, username, refreshKey = 0 }) {
   }, [])
 
   useEffect(() => {
-    if (platform !== 'youtube' || !username) return
+    if (platform !== 'YouTube' || !username) return
     let isMounted = true
 
     async function checkLiveStream() {
