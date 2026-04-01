@@ -12,6 +12,11 @@ function generateID() {
 }
 
 export default async (request) => {
+  const siteId = request.headers.get('x-nf-site-id');
+    
+  if (!siteId)
+    return new Response('Forbidden', { status: 403 });
+        
   const { data } = await request.json();
 
   if (!data)
