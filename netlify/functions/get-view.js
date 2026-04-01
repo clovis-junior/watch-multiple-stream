@@ -1,6 +1,11 @@
 import { getStore } from '@netlify/blobs';
 
 export default async (request) => {
+  const siteId = request.headers.get('x-nf-site-id');
+    
+  if (!siteId)
+    return new Response('Forbidden', { status: 403 });
+  
   const url = new URL(request.url);
   const id = url.pathname.split('/').pop();
 
