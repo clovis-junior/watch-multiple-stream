@@ -87,7 +87,7 @@ export function VideoEmbed({ platform, username, muted = true, ...inline }) {
   }, [])
 
   useEffect(() => {
-    if (platform !== 'youtube' || !username) return
+    if (platform !== 'YouTube' || !username) return
     let isMounted = true
 
     async function checkYouTubeChannel() {
