@@ -110,29 +110,29 @@ export default function View() {
     if (!id) return
 
     async function load() {
-      const response = await fetch(`/api/view/${id}`)
+      try {
+        const response = await fetch(`/api/view/${id}`)
 
-      if (response.status === 400 || response.status === 404) {
-        navigate('/')
-        return
-      }
-
-      const { data } = await response.json()
-
-      const entries = data.map(value => {
-        const { platform, username, hidden } = value
-
-        if (!platform || !username)
-          return null
-
-        return {
-          platform,
-          username,
-          hidden: !!hidden
+        if (response.status === 400 || response.status === 404) {
+          navigate('/')
+          return
         }
-      }).filter(Boolean)
-
-      setStreams(entries)
+        
+        const { data } = await response.json()
+        const entries = data.map(value => {
+          const { platform, username, hidden } = value
+  
+          if (!platform || !username)
+            return null
+  
+          return { platform, username, hidden: !!hidden }
+        }).filter(Boolean)
+  
+        setStreams(entries)
+      } catch (err) {
+        console.error(err)
+        navigate('/')
+      }
     }
 
     load()
