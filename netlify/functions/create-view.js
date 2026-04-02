@@ -1,14 +1,24 @@
 import { getStore } from '@netlify/blobs';
 
-function generateID() {
+function generateID(length = 11) {
     let chars = 'abcdefghijklmnopqrstuvwxyz';
     chars += 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
     chars += '0123456789';
 
-    const array = new Uint32Array(11);
+    const array = new Uint32Array(length);
     crypto.getRandomValues(array);
 
     return Array.from(array, n => chars[n % chars.length]).join('')
+}
+
+async function generateUniqueID(store) {
+  let id;
+
+  do {
+    id = generateID()
+  } while (await store.getMetadata(id));
+
+  return id
 }
 
 export default async (request) => {
@@ -22,14 +32,12 @@ export default async (request) => {
   if (!data)
     return new Response('Missing data', { status: 400 });
 
-  const id = generateID();
   const store = getStore('views');
-  const exists = await store.getMetadata(id);
+  const id = await generateUniqueID(store);
 
-  if (!exists)
-    await store.setJSON(id, data, {
-      expirationTtl: 60 * 60 * 24
-    });
+  await store.setJSON(id, data, {
+    expirationTtl: 60 * 60 * 24
+  });
 
   return Response.json({ id })
 }
