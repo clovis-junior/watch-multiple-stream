@@ -216,36 +216,6 @@ select {
     }
 }
 
-.alert {
-    --color: #{hexToRGB($info-color)};
-
-    flex: 1 0;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    gap: 1rem;
-    padding: 1rem;
-    border-radius: 10px;
-    border: 1px solid rgba(var(--color), 0.6);
-    background-color: rgba(var(--color), 0.2);
-    font-weight: 600;
-    color: rgb(var(--color));
-
-    &.info {
-        --color: #{hexToRGB($info-color)};
-    }
-    &.success {
-        --color: #{hexToRGB($success-color)};
-    }
-    &.warning {
-        --color: #{hexToRGB($warning-color)};
-    }
-    &.error {
-        --color: #{hexToRGB($danger-color)};
-    }
-}
-
 .button,
 .btn {
     --color: #{hexToRGB($light-pallete-1st)};

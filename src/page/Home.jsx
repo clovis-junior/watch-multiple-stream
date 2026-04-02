@@ -1,9 +1,10 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
-import Ripple from '../components/Ripple'
 import styles from '../assets/scss/home.module.scss'
+import Ripple from '../components/Ripple'
 import Icon from '../components/Icon'
+import Alert from '../components/Alert'
 
 export default function Home() {
   const [error, setError] = useState('')
@@ -68,9 +69,9 @@ export default function Home() {
           <h3>Thats the way to watch multiple streams at one time.</h3>
         </header>
         {error ? (
-          <div className={`${styles?.alert} ${styles?.error}`}>{error}</div>
+          <Alert type="error">{error}</Alert>
         ) : (
-          <div className={`${styles?.alert} ${styles?.info}`}>All generated URLs are valid for only 24 hours.</div>
+          <Alert type="info" transparent>All generated URLs are valid for only 24 hours.</Alert>
         )}
         {streams.map((stream, index) => (
           <div key={index} className={styles?.label}>

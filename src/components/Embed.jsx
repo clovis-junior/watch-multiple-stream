@@ -1,7 +1,16 @@
 import { useEffect, useState, useMemo } from 'react'
 import { getChannelId, getChannelLive } from '../hooks/useYoutube'
 
+import styles from '../assets/scss/view.module.scss'
+import Alert from './Alert'
+
 const currentURL = typeof window !== 'undefined' ? window.location.hostname : ''
+
+function Loader() {
+  return (
+    <div className={styles?.loader}></div>
+  )
+}
 
 export function ChatEmbed({ platform, username, refreshKey = 0 }) {
   const [isLoaded, setIsLoaded] = useState(false)
@@ -53,7 +62,11 @@ export function ChatEmbed({ platform, username, refreshKey = 0 }) {
     }
   }, [platform, username, live, isDark]);
 
-  if (!url || !isLoaded) return null
+  if (!isLoaded)
+    return (<Loader />)
+
+  if (!url)
+     return (<Alert type="error" transparent><strong>Error on load Chat:</strong>Check out the console for more information.</Alert>)
 
   return (
     <iframe
@@ -117,7 +130,11 @@ export function VideoEmbed({ platform, username, muted = true, ...inline }) {
     }
   }, [platform, username, channel, isMuted, isDark])
 
-  if (!url || !isLoaded) return null
+  if (!isLoaded)
+    return (<Loader />)
+
+  if (!url)
+     return (<Alert type="error" transparent><strong>Error on load Stream:</strong>Check out the console for more information.</Alert>)
 
   return ( 
     <iframe

@@ -1,0 +1,35 @@
+@use "global.scss" as *;
+
+.alert {
+    --color: #{hexToRGB($info-color)};
+
+    flex: 1 0;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    border-radius: 10px;
+    font-weight: 600;
+    color: rgb(var(--color));
+
+    &:not(.transparent) {
+        border: 1px solid rgba(var(--color), 0.6);
+        background-color: rgba(var(--color), 0.2);
+    }
+
+    &.info {
+        --color: #{hexToRGB($info-color)};
+    }
+    &.success {
+        --color: #{hexToRGB($success-color)};
+    }
+    &.warning {
+        --color: #{hexToRGB($warning-color)};
+    }
+    &.error {
+        --color: #{hexToRGB($danger-color)};
+    }
+}
