@@ -59,13 +59,20 @@
     .grid {
         flex-grow: 2;
         display: grid;
-        grid-template-columns: 1fr 1fr;
-        justify-content: center;
+        grid-template-columns: repeat(auto-fit, minmax(50%, 1fr));
         align-content: center;
         overflow: hidden;
 
         &.column {
             grid-template-columns: 1fr;
+
+            .live {
+                height: auto;
+
+                &:nth-child(odd):last-child {
+                    grid-column: initial;
+                }
+            }
         }
 
         .live {
@@ -77,14 +84,14 @@
             align-items: center;
             overflow: hidden;
 
-			&:nth-child(odd):last-child {
+            &:nth-child(odd):last-child {
                 grid-column: span 2;
             }
 
-			& iframe {
-				object-fit: cover;
-				aspect-ratio: 16 / 9;
-			}
+            iframe {
+                width: auto;
+                aspect-ratio: 16 / 9;
+            }
         }
     }
 
@@ -92,7 +99,6 @@
         z-index: 4;
         flex-grow: 0;
         width: 0;
-        
         display: flex;
         flex-wrap: nowrap;
         flex-direction: column;
