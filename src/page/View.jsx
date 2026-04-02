@@ -90,6 +90,7 @@ export default function View() {
   useKeyUp('v', handleViewMode)
 
   const { id } = useParams()
+  const navigate = useNavigate()
 
   const [refreshKey, setRefreshKey] = useState(0)
   const [streams, setStreams] = useState([]);
