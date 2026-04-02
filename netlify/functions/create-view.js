@@ -32,4 +32,4 @@ export default async (request) => {
     });
 
   return Response.json({ id })
-};
+}
