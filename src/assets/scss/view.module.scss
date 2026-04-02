@@ -59,21 +59,13 @@
     .grid {
         flex-grow: 2;
         display: grid;
-        grid-template-columns: repeat(2, minmax(0, 1fr));
+        grid-template-columns: 1fr 1fr;
         justify-content: center;
         align-content: center;
         overflow: hidden;
 
         &.column {
             grid-template-columns: 1fr;
-
-            .live {
-                height: initial;
-
-                iframe {
-                    width: initial;
-                }
-            }
         }
 
         .live {
