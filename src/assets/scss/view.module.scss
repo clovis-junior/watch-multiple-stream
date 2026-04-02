@@ -59,6 +59,7 @@
     .grid {
         flex-grow: 2;
         display: grid;
+				grid-auto-rows: 1fr;
         grid-template-columns: 1fr 1fr;
         justify-content: center;
         align-content: center;
@@ -77,6 +78,11 @@
             align-items: center;
             overflow: hidden;
             aspect-ratio: 16 / 9;
+
+            & iframe {
+            	height: auto;
+              aspect-ratio: 16 / 9;
+            }
         }
     }
 
