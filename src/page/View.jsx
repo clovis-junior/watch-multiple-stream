@@ -98,28 +98,28 @@ export default function View() {
   const [viewMode, setViewMode] = useState(false)
   const [chat, setChat] = useState(null)
 
-  const activeChat = useMemo(() => {
-    if (chat) return chat
-
-    if (streams.length > 0)
-      return `${streams[0].platform}:${streams[0].username}`
-
-    return null;
-  }, [chat, streams])
+  const activeChat = chat ?? (streams[0]
+    ? `${streams[0]?.platform}:${streams[0]?.username}`
+    : null)
 
   useEffect(() => {
     if (!id) return
 
+    let cancelled = false
+
     async function load() {
       try {
-        const response = await fetch(`/api/view/${id}`)
+        const response = await fetch(`/api/view/${id}`, {
+          credentials: 'same-origin'
+        })
 
-        if (response.status === 400 || response.status === 404) {
-          navigate('/')
-          return
-        }
+        if (!response.ok)
+          throw new Error('Invalid response')
         
         const { data } = await response.json()
+
+        if (cancelled) return
+        
         const entries = data.map(value => {
           const { platform, username, hidden } = value
   
@@ -130,14 +130,16 @@ export default function View() {
         }).filter(Boolean)
   
         setStreams(entries)
-      } catch (err) {
-        console.error(err)
+      } catch {
         navigate('/')
       }
     }
 
     load()
-  }, [id])
+    return () => {
+      cancelled = true
+    }
+  }, [id, navigate])
 
   if (!streams.length) return null
 
