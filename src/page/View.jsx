@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useParams, useNavigate } from 'react-router-dom'
 
 import { ChatEmbed, VideoEmbed } from '../components/Embed'
 
@@ -111,6 +111,12 @@ export default function View() {
 
     async function load() {
       const response = await fetch(`/api/view/${id}`)
+
+      if (response.status === 400 || response.status === 404) {
+        navigate('/')
+        return
+      }
+
       const { data } = await response.json()
 
       const entries = data.map(value => {
