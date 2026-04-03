@@ -158,10 +158,11 @@ export default function View() {
   }
 
   function handleRefreshChat() {
-    if (!chat)
+    if (!activeChat)
       return false
 
     setRefreshKey(prev => prev + 1)
+    return false
   }
 
   function handleViewMode() {
