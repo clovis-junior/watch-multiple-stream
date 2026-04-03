@@ -72,8 +72,8 @@ export function ChatEmbed({ platform, username, refreshKey = 0 }) {
     <iframe
       key={refreshKey}
       src={url}
-      referrerPolicy="origin"
-      style={{ width: '100%', height: '100%', border: 'none' }}
+      title={`Chat de ${username} via ${platform}`}
+      frameborder={0} scrolling="no"
     />
   )
 }
@@ -141,6 +141,7 @@ export function VideoEmbed({ platform, username, muted = true, ...inline }) {
       src={url}
       {...inline}
       title={`Livestream de ${username} via ${platform}`}
+      frameborder={0} scrolling="no"
       allowFullScreen
     />
   )
