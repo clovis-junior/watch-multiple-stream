@@ -121,7 +121,7 @@ export function VideoEmbed({ platform, username, muted = true, ...inline }) {
       case 'Kick':
         return `https://player.kick.com/${username}?allowfullscreen=true&muted=${isMuted}`
       case 'Twitch':
-        return `https://player.twitch.tv/?channel=${username}&autoplay=true&muted=${isMuted}&parent=${encodedDomain}`
+        return `https://player.twitch.tv/?channel=${username}&autoplay=true&muted=${isMuted}&theme=${isDark ? 'dark' : 'light'}&parent=${encodedDomain}`
       case 'YouTube':
         if (!channel) return null
         return `https://www.youtube.com/embed/live_stream?channel=${channel}&rel=0&autoplay=1${isMuted ? '&mute=1' : ''}&theme=${isDark ? 'dark' : 'light'}`
