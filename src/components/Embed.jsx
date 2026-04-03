@@ -142,7 +142,6 @@ export function VideoEmbed({ platform, username, muted = true, ...inline }) {
       {...inline}
       title={`Livestream de ${username} via ${platform}`}
       frameborder={0} scrolling="no"
-      allowFullScreen
     />
   )
 }
