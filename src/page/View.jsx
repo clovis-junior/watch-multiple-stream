@@ -32,14 +32,13 @@ function Screen({ platform, username, isVisible = true, muted = false }) {
     switch (platform) {
       case 'Kick':
         return <VideoEmbed platform={platform} username={username} muted={muted}
-          allow="autoplay" referrerPolicy="strict-origin-when-cross-origin" />
+          allow="autoplay; fullscreen" />
       case 'Twitch':
         return <VideoEmbed platform={platform} username={username} muted={muted}
-          allow="autoplay" referrerPolicy="strict-origin-when-cross-origin" />
+          allow="autoplay; fullscreen" />
       case 'YouTube':
         return <VideoEmbed platform={platform} username={username} muted={muted}
-          allow="autoplay; accelerometer; clipboard-write; encrypted-media; gyroscope; web-share"
-          referrerPolicy="strict-origin-when-cross-origin" />
+          allow="autoplay; fullscreen; accelerometer; clipboard-write; encrypted-media; gyroscope; web-share" />
       default:
         return null
     }
