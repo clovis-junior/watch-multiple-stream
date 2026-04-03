@@ -1,18 +1,23 @@
-# React + Vite
+[![Netlify Status](https://api.netlify.com/api/v1/badges/cec7b57b-afdb-4e9b-9b3a-240e901814b2/deploy-status)](https://app.netlify.com/projects/watch-streams/deploys)
+![GitHub package.json version (branch)](https://img.shields.io/github/package-json/v/clovis-junior/watch-multiple-stream/main)
+![GitHub repo size](https://img.shields.io/github/repo-size/clovis-junior/watch-multiple-stream)
+![GitHub License](https://img.shields.io/github/license/clovis-junior/watch-multiple-stream)
+![Website](https://img.shields.io/website?url=https%3A%2F%2Fwatch-streams.netlify.app%2F)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This a project made only by myself using Vite (with React), SCSS and love!
 
-Currently, two official plugins are available:
+## 🔴 Supported Streaming Platforms
+- [x] **[Twitch TV](https://www.twitch.tv/)**
+- [x] **[YouTube](https://www.youtube.com/)**
+- [x] **[Kick](https://kick.com/)**
+- [ ] **Facebook**
+- [ ] **TikTok**
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+> [!NOTE]
+> Every platforms tested on Windows 11 using Microsoft Edge Browser (lastest version).
 
-## React Compiler
+## 👇🏻 Check it out
 
-The React Compiler is enabled on this template. See [this documentation](https://react.dev/learn/react-compiler) for more information.
-
-Note: This will impact Vite dev & build performances.
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+| 💼 Professional                                         | ☕ Support                       |
+|---------------------------------------------------------|-----------------------------------|
+| [LinkedIn](https://www.linkedin.com/in/clovis-junior-/) | [Ko-Fi](https://ko-fi.com/clovao) |
